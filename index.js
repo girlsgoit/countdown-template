@@ -18,3 +18,45 @@ console.log("Here");
 // 9. Creăm text-ul pentru minute și secunde(m și s)
 // 10. Dacă numărul e mai mic ca 10, creăm strin-ul cu 0 în față
 // 11. La stop, facem reset la span-uri cu valori de 0
+
+let intervalId;
+let totalSeconds = 0;
+
+document.getElementById('start-btn').addEventListener('click', handleStart);
+document.getElementById('stop-btn').addEventListener('click', handleStop);
+
+function handleStart() {
+  if (secondsInput.value !== '' || secondsInput.value !== '0') {
+    totalSeconds = Number(secondsInput.value);
+    secondsInput.value = '';
+
+    intervalId = setInterval(function() {
+      tick();
+    }, 1000);
+  }
+}
+  
+function handleStop() {
+  clearInterval(intervalId);
+  totalSeconds = 0;
+  showProgress();
+}
+
+function tick() {
+  totalSeconds--;
+  
+  if (totalSeconds === 0) {
+    handleStop();
+    
+    alert('Time is up!');
+  }
+  
+  showProgress();
+}
+
+function showProgress() {
+  let minutes = Math.floor(totalSeconds / 60);
+  minutesProgress.innerText = minutes < 10 ? '0' + minutes + 'm' : minutes + 'm';
+  let seconds = totalSeconds % 60;
+  secondsProgress.innerText = seconds < 10 ? '0' + seconds + 's' : seconds + 's';
+}
